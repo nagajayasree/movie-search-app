@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
-import MovieGrid from './MovieCard';
+import MovieGrid from './MovieGrid';
 
 export interface Movie {
   Title?: string;
   Year?: string;
   imdbID?: string;
   Poster?: string;
+  Plot?: string;
+  imdbRating?: string;
+  Genre?: string;
+  Runtime?: string;
 }
 
 type OmdbResponse = {
@@ -30,28 +34,13 @@ export default function SearchBar() {
   );
   const [isLoading, setIsLoading] = useState(true);
 
-  // useEffect(() => {
-  //   fetch(`http://www.omdbapi.com/?apikey=8b67098a&s=${debouncedQuery.trim()}`)
-  //     .then((res) => res.json())
-  //     .then((data: OmdbResponse) => {
-  //       // console.log(debouncedQuery);
-  //       // console.log('Data', data);
-  //       setMovies(data.Search ?? []);
-  //     })
-  //     .catch((err) => {
-  //       setErrorMessage(err);
-  //     })
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //     });
-  // }, [debouncedQuery]);
-
-  // console.log('Movies:', results);
+  console.log('Movies:', results);
+  console.log(errorMessage);
 
   const handleSearch = async () => {
     try {
       const res = await fetch(
-        `http://www.omdbapi.com/?apikey=8b67098a&s=${debouncedQuery}}`,
+        `http://www.omdbapi.com/?apikey=8b67098a&s=${debouncedQuery}`,
       );
       const data: OmdbResponse = await res.json();
       setResults(data.Search ?? []);
@@ -67,24 +56,35 @@ export default function SearchBar() {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
         gap: '20px',
       }}
     >
-      <input
-        type="text"
-        required
-        value={search}
-        placeholder="Search movies.."
-        style={styles.input}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      <button style={styles.button} onClick={handleSearch}>
-        Search
-      </button>
-      <div style={styles.moviesContainer}>
-        <MovieGrid movies={results} />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          gap: '20px',
+        }}
+      >
+        <input
+          type="text"
+          required
+          value={search}
+          placeholder="Search movies.."
+          style={styles.input}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <button style={styles.button} onClick={handleSearch}>
+          Search
+        </button>
       </div>
+
+      {!isLoading && (
+        <div style={styles.moviesContainer}>
+          <MovieGrid movies={results} />
+        </div>
+      )}
     </div>
   );
 }
@@ -104,7 +104,10 @@ const styles = {
   },
   moviesContainer: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 2fr))',
     gap: '20px',
   },
 };

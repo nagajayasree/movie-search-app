@@ -8,10 +8,22 @@ function App() {
         display: 'flex',
         justifyContent: 'center',
         flexDirection: 'column',
+<<<<<<< HEAD
+      }}
+    >
+      <h3
+        style={{
+          textAlign: 'center',
+        }}
+      >
+        Movie-Search-App
+      </h3>
+=======
         textAlign: 'center',
       }}
     >
       <p>Movie-Search-App</p>
+>>>>>>> main
       <SearchBar />
     </div>
   );
