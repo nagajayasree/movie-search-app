@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -71,3 +72,8 @@ export default defineConfig([
   },
 ])
 ```
+=======
+# movie-search
+
+Fetching movie data from the OMDB API (free). Users can search titles, view details, and save favorites. Introduces real API calls, debouncing inputs, and loading/error states.
+>>>>>>> main
