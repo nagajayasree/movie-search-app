@@ -47,7 +47,7 @@ export default function SearchBar() {
       // Step 2: For each movie, fetch full details using imdbID
       const detailPromises = (data.Search ?? []).map((movie) =>
         fetch(
-          `https://www.omdbapi.com/?apikey=8b67098a&i=${movie.imdbID}&plot=full`,
+          `https://www.omdbapi.com/?apikey=8b67098a&i=${movie.imdbID}&plot=short`,
         ).then((res) => res.json()),
       );
       const detailedResults = await Promise.all(detailPromises);

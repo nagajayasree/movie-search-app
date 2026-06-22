@@ -12,6 +12,11 @@ export default function MovieDetailsModal({
   onClose,
   movie,
 }: MovieDetailsModalProps) {
+  const placeholderSrc = new URL(
+    '../assets/No-Image-Placeholder.svg',
+    import.meta.url,
+  ).href;
+
   return (
     <div style={styles.container}>
       <div style={styles.dialogContainer}>
@@ -21,24 +26,53 @@ export default function MovieDetailsModal({
             onClick={(e) => e.stopPropagation()}
             style={styles.dialog}
           >
-            <button onClick={onClose}>Close</button>
             <div
               style={{
-                borderRadius: '12px',
-                padding: '12px',
-                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
               }}
             >
-              <div style={styles.image}>
-                <img src={movie.Poster} />
-              </div>
+              <button style={{ width: '10%' }} onClick={onClose}>
+                Close
+              </button>
+              <button style={{ width: '10%' }}>Add to Fav</button>
+            </div>
+
+            <div style={styles.info}>
               <div>
-                <label>{movie.Title}</label>
-                <label>{movie.Year}</label>
-                <label>{movie.Genre}</label>
-                <label>{movie.Runtime}</label>
-                <label>{movie.imdbID}</label>
-                <label>{movie.Plot}</label>
+                <img
+                  style={styles.image}
+                  src={movie.Poster || placeholderSrc}
+                  alt={movie.Title}
+                  onError={(event) => {
+                    event.currentTarget.src = placeholderSrc;
+                  }}
+                />
+
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '15px',
+                  }}
+                >
+                  <h3>{movie.Title}</h3>
+                  <div style={{ display: 'flex', gap: '20px' }}>
+                    <label>{movie.Year}</label>
+                    {''}
+                    <label>{movie.Genre}</label>
+                    {''}
+                    <label>{movie.Runtime}</label>
+                    {''}
+                    <label>{movie.imdbRating}</label>
+                    {''}
+                  </div>
+                  <div>
+                    <label>{movie.Plot}</label>
+                  </div>
+                </div>
               </div>
             </div>
           </dialog>
@@ -78,9 +112,14 @@ const styles: Record<string, React.CSSProperties> = {
     borderRadius: '8px',
     borderColor: 'white',
   },
+  info: {
+    borderRadius: '12px',
+    padding: '12px',
+    overflow: 'hidden',
+  },
   image: {
-    width: '100%',
-    height: '300px',
+    width: '35%',
+    height: '240px',
     borderRadius: '8px',
     marginBottom: '10px',
   },
