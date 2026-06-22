@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import type { Movie } from './SearchBar';
 import MovieDetailsModal from './MovieDetailsModal';
 

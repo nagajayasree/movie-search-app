@@ -34,16 +34,25 @@ export default function SearchBar() {
   );
   const [isLoading, setIsLoading] = useState(true);
 
-  console.log('Movies:', results);
   console.log(errorMessage);
 
   const handleSearch = async () => {
     try {
-      const res = await fetch(
-        `http://www.omdbapi.com/?apikey=8b67098a&s=${debouncedQuery}`,
+      const searchRes = await fetch(
+        `https://www.omdbapi.com/?apikey=8b67098a&s=${debouncedQuery}`,
       );
-      const data: OmdbResponse = await res.json();
-      setResults(data.Search ?? []);
+      const data: OmdbResponse = await searchRes.json();
+      console.log('data', data);
+
+      // Step 2: For each movie, fetch full details using imdbID
+      const detailPromises = (data.Search ?? []).map((movie) =>
+        fetch(
+          `https://www.omdbapi.com/?apikey=8b67098a&i=${movie.imdbID}&plot=full`,
+        ).then((res) => res.json()),
+      );
+      const detailedResults = await Promise.all(detailPromises);
+      setResults(detailedResults);
+      console.log('detailedResults', detailedResults);
     } catch (err) {
       setErrorMessage(err instanceof Error ? err.message : String(err));
     } finally {

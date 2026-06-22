@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Movie } from './SearchBar';
 
 interface MovieDetailsModalProps {
@@ -47,7 +48,7 @@ export default function MovieDetailsModal({
   );
 }
 
-const styles = {
+const styles: Record<string, React.CSSProperties> = {
   container: {
     position: 'fixed',
     top: '0',
@@ -57,7 +58,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: '1000',
+    zIndex: 1000,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   dialogContainer: {
