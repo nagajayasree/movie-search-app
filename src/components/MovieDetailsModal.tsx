@@ -58,7 +58,13 @@ export default function MovieDetailsModal({
                     gap: '15px',
                   }}
                 >
-                  <h3>{movie.Title}</h3>
+                  <h3
+                    style={{
+                      overflowWrap: 'break-word',
+                    }}
+                  >
+                    {movie.Title}
+                  </h3>
                   <div style={{ display: 'flex', gap: '20px' }}>
                     <label>{movie.Year}</label>
                     {''}
@@ -107,10 +113,12 @@ const styles: Record<string, React.CSSProperties> = {
     display: 'flex',
     flexDirection: 'column',
     alignSelf: 'center',
-    width: '50%',
-    height: '50%',
+    width: '75%',
+    height: '75%',
     borderRadius: '8px',
     borderColor: 'white',
+    overflowWrap: 'break-word',
+    wordBreak: 'break-word',
   },
   info: {
     borderRadius: '12px',
@@ -118,9 +126,9 @@ const styles: Record<string, React.CSSProperties> = {
     overflow: 'hidden',
   },
   image: {
-    width: '35%',
-    height: '240px',
     borderRadius: '8px',
-    marginBottom: '10px',
+    marginBottom: '5px',
+    maxWidth: '35%',
+    height: 'auto',
   },
 };
