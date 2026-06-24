@@ -38,7 +38,9 @@ export default function MovieDetailsModal({
                 justifyContent: 'space-between',
               }}
             >
-              <X onClick={onClose} />
+              <button onClick={onClose}>
+                <X />
+              </button>
               <Heart
                 size={24}
                 color={!isFilled ? 'gray' : 'none'}

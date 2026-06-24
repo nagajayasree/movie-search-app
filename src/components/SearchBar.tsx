@@ -42,7 +42,7 @@ export default function SearchBar() {
         `https://www.omdbapi.com/?apikey=8b67098a&s=${debouncedQuery}`,
       );
       const data: OmdbResponse = await searchRes.json();
-      console.log('data', data);
+      // console.log('data', data);
 
       // Step 2: For each movie, fetch full details using imdbID
       const detailPromises = (data.Search ?? []).map((movie) =>
@@ -52,7 +52,7 @@ export default function SearchBar() {
       );
       const detailedResults = await Promise.all(detailPromises);
       setResults(detailedResults);
-      console.log('detailedResults', detailedResults);
+      // console.log('detailedResults', detailedResults);
     } catch (err) {
       setErrorMessage(err instanceof Error ? err.message : String(err));
     } finally {
