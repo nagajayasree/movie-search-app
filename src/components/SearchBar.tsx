@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import MovieGrid from './MovieGrid';
 
 export interface Movie {
-  Title?: string;
-  Year?: string;
-  imdbID?: string;
-  Poster?: string;
+  Title: string;
+  Year: string;
+  imdbID: string;
+  Poster: string;
   Plot?: string;
   imdbRating?: string;
   Genre?: string;
