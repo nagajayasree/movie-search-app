@@ -1,16 +1,21 @@
 import React from 'react';
 import type { Movie } from './SearchBar';
+import { Heart, X } from 'lucide-react';
 
 interface MovieDetailsModalProps {
   onClose: (e: React.MouseEvent<HTMLButtonElement>) => void;
   movie: Movie;
   selectedCard: string | null;
+  onClickFav: (e: string) => void;
+  isFilled: boolean;
 }
 
 export default function MovieDetailsModal({
   selectedCard,
   onClose,
   movie,
+  onClickFav,
+  isFilled,
 }: MovieDetailsModalProps) {
   const placeholderSrc = new URL(
     '../assets/No-Image-Placeholder.svg',
@@ -33,10 +38,14 @@ export default function MovieDetailsModal({
                 justifyContent: 'space-between',
               }}
             >
-              <button style={{ width: '10%' }} onClick={onClose}>
-                Close
-              </button>
-              <button style={{ width: '10%' }}>Add to Fav</button>
+              <X onClick={onClose} />
+              <Heart
+                size={24}
+                color={!isFilled ? 'gray' : 'none'}
+                fill={isFilled ? 'red' : 'none'}
+                onClick={() => onClickFav(movie.Title)}
+                style={{ cursor: 'pointer' }}
+              />
             </div>
 
             <div style={styles.info}>
@@ -130,6 +139,6 @@ const styles: Record<string, React.CSSProperties> = {
     borderRadius: '8px',
     margin: '5px',
     maxWidth: '35%',
-    height: 'auto',
+    height: '65%',
   },
 };
