@@ -1,7 +1,7 @@
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
 import type { Movie } from './SearchBar';
 import MovieDetailsModal from './MovieDetailsModal';
+import { Heart } from 'lucide-react';
 
 export interface MovieGridProps {
   movies: Movie[];
@@ -10,6 +10,7 @@ export interface MovieGridProps {
 export default function MovieGrid({ movies }: MovieGridProps) {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [favouriteMovies, setFavouriteMovies] = useState<string[]>([]);
 
   const placeholderSrc = new URL(
     '../assets/No-Image-Placeholder.svg',
@@ -27,33 +28,65 @@ export default function MovieGrid({ movies }: MovieGridProps) {
     setSelectedCard(null);
   };
 
+  const onClickFavourite = (movieTitle: string) => {
+    setFavouriteMovies((prev) =>
+      prev.includes(movieTitle)
+        ? prev.filter((id) => id !== movieTitle)
+        : [...prev, movieTitle],
+    );
+  };
+
+  useEffect(() => {
+    localStorage.setItem('movies', JSON.stringify(favouriteMovies));
+  }, [favouriteMovies]);
+
   return (
     <>
-      {movies.map((movie) => (
-        <div
-          style={styles.cardStyle}
-          key={movie.imdbID}
-          onClick={() => onHandleClick(movie.imdbID)}
-        >
-          <img
-            style={styles.image}
-            src={movie.Poster || placeholderSrc}
-            alt={movie.Title}
-            onError={(event) => {
-              event.currentTarget.src = placeholderSrc;
-            }}
-          />
-          <p>{movie.Title}</p>
-          <p>{movie.Year}</p>
-          {selectedCard === movie.imdbID && (
-            <MovieDetailsModal
-              movie={movie}
-              onClose={onClose}
-              selectedCard={selectedCard}
+      {movies.map((movie) => {
+        const isFilled = favouriteMovies.includes(movie.Title);
+        return (
+          <div style={styles.cardStyle} key={movie.imdbID}>
+            <img
+              style={styles.image}
+              src={movie.Poster || placeholderSrc}
+              alt={movie.Title}
+              onError={(event) => {
+                event.currentTarget.src = placeholderSrc;
+              }}
+              onClick={() => onHandleClick(movie.imdbID)}
             />
-          )}
-        </div>
-      ))}
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <div>
+                <p>{movie.Title}</p>
+                <p>{movie.Year}</p>
+              </div>
+              <Heart
+                size={24}
+                color={!isFilled ? 'gray' : 'none'}
+                fill={isFilled ? 'red' : 'none'}
+                onClick={() => onClickFavourite(movie.Title)}
+                style={{ cursor: 'pointer' }}
+              />
+            </div>
+            {selectedCard === movie.imdbID && (
+              <MovieDetailsModal
+                movie={movie}
+                onClose={onClose}
+                selectedCard={selectedCard}
+                onClickFav={onClickFavourite}
+                isFilled={isFilled}
+              />
+            )}
+          </div>
+        );
+      })}
     </>
   );
 }
