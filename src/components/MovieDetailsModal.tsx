@@ -38,7 +38,7 @@ export default function MovieDetailsModal({
                 justifyContent: 'space-between',
               }}
             >
-              <button onClick={onClose}>
+              <button style={styles.button} onClick={onClose}>
                 <X />
               </button>
               <Heart
@@ -142,5 +142,11 @@ const styles: Record<string, React.CSSProperties> = {
     margin: '5px',
     maxWidth: '35%',
     height: '65%',
+  },
+  button: {
+    backgroundColor: 'Background',
+    border: 'none',
+    color: 'gray',
+    cursor: 'pointer',
   },
 };
