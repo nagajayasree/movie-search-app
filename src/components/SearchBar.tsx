@@ -54,7 +54,7 @@ export default function SearchBar() {
         setResults(data.Search ?? []);
       } catch (e) {
         if (e !== 'AbortError') {
-          setErrorMessage(e);
+          setErrorMessage(e instanceof Error ? e.message : String(e));
         }
       } finally {
         setIsLoading(false);
